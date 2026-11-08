@@ -1,0 +1,1 @@
+Upload this ZIP to https://app.netlify.com/drop and open the provided HTTPS URL on your phone. Rotate to landscape and enable Auto rotate. For orientation locking, install as a home-screen web app if your browser supports it.

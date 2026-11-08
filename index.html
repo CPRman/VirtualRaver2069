@@ -1,0 +1,499 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#061b28"><title>Virtual Raver 2069 — Astronomy Edition v18</title><link rel="manifest" href="manifest.webmanifest"><meta name="description" content="Explore a volcanic island, dance at a CiViLX festival, and discover an underground crystal cave."><link rel="icon" type="image/png" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020612;color:white;font-family:system-ui,Arial;touch-action:none}canvas{display:block}#hud{position:fixed;top:12px;left:13px;right:13px;pointer-events:none;text-shadow:0 2px 6px #000}#hud strong{font-size:17px;letter-spacing:2px}#hud small{display:block;opacity:.8;font-size:11px;margin-top:4px}#status{position:fixed;bottom:130px;left:0;right:0;text-align:center;font-size:12px;pointer-events:none;text-shadow:0 2px 5px black}#stick{position:fixed;bottom:22px;left:20px;width:110px;height:110px;border:2px solid #ffffff66;border-radius:50%;background:#ffffff1a;touch-action:none}#knob{position:absolute;left:35px;top:35px;width:36px;height:36px;background:#e6ffffb8;border-radius:50%;box-shadow:0 0 18px #00e6ff88}#actions{position:fixed;bottom:24px;right:15px;display:flex;gap:9px;align-items:end}button{background:#062c3ecc;border:1px solid #85e9ff99;color:#fff;border-radius:16px;padding:12px 14px;font-weight:700;backdrop-filter:blur(8px)}button:active{background:#14617d}#sprint{height:60px}#jump{height:60px}#dance{height:60px;background:#75245ccc;border-color:#ff91e2}#danceMoves{height:60px;max-width:124px;background:#251a43e8;border-color:#ad9dff;font-size:12px}#dance.active{background:#d3248a;box-shadow:0 0 20px #ff50cb88}#map{position:fixed;top:14px;right:14px;width:118px;height:118px;border-radius:50%;border:2px solid #ffffff88;background:#143e52cc;overflow:hidden;box-shadow:0 3px 12px #0009}#map canvas{width:100%;height:100%}#music{position:fixed;top:146px;right:12px;font-size:11px;padding:9px}#help{position:fixed;top:52px;left:13px;max-width:200px;font-size:11px;line-height:1.45;opacity:.85;pointer-events:none}#loading{position:fixed;inset:0;display:grid;place-items:center;background:#071b29;z-index:10;text-align:center;padding:24px}#loading h2{letter-spacing:3px}#loading p{font-size:13px;color:#b9d9df}#cross{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.5;pointer-events:none;font-size:18px}
+#weather{position:fixed;top:188px;right:12px;font-size:11px;padding:9px;z-index:3}#weatherLabel{position:fixed;top:229px;right:12px;font-size:10px;color:#b9e5ff;text-shadow:0 1px 5px #000;pointer-events:none} #avatarBtn{position:fixed;top:268px;right:12px;z-index:4}#viewBtn{position:fixed;top:315px;right:12px;z-index:4}#creator{position:fixed;inset:0;z-index:20;background:linear-gradient(135deg,#05101bea,#111327f5);display:flex;align-items:center;justify-content:center;padding:12px;overflow:auto;touch-action:pan-y}#creator.hidden{display:none}#creatorPanel{width:min(750px,100%);max-height:96vh;overflow:auto;background:#101a2af5;border:1px solid #51728c;border-radius:20px;padding:18px;box-shadow:0 20px 80px #000b;touch-action:pan-y}#creatorPanel h2{margin:0 0 5px;letter-spacing:2px}#creatorPanel p{font-size:12px;color:#aebed3}#creatorGrid{display:grid;grid-template-columns:minmax(170px,1fr) minmax(175px,1fr);gap:16px}#avatarPreview{width:100%;height:330px;border-radius:14px;background:radial-gradient(ellipse at 50% 40%,#24445b,#080c1a);touch-action:none}#creator label{display:block;font-size:12px;margin:9px 0 4px;color:#b7d6e5}#creator select,#creator input{width:100%;background:#182c3d;color:white;border:1px solid #4b7387;border-radius:9px;padding:9px}#creator input[type=range]{padding:0}#creatorActions{display:flex;gap:10px;margin-top:14px}#creatorActions button{flex:1}#enterIsland{background:#087b91}#creatorNote{font-size:11px;color:#a7b6c5;margin-top:8px}@media(max-width:480px){#creatorGrid{grid-template-columns:45% 1fr;gap:10px}#avatarPreview{height:290px}#creatorPanel{padding:12px}#creatorPanel h2{font-size:17px}#creator label{margin-top:6px}#creator select{padding:6px}} #experience{position:fixed;left:12px;top:104px;z-index:5;width:min(218px,44vw);background:#061625d9;border:1px solid #6b9eb455;border-radius:14px;padding:9px;backdrop-filter:blur(9px);box-shadow:0 8px 30px #0008}#experience h3{margin:0 0 5px;font-size:11px;letter-spacing:1.3px;color:#9eeaff}#objective{font-size:11px;line-height:1.4;color:#e1eaf6}#experience button{font-size:10px;padding:7px 9px;border-radius:8px;margin:5px 3px 0 0}#travel{max-width:125px;background:#102d45;color:#fff;border-radius:7px;padding:5px;font-size:11px}#experience small{display:block;font-size:10px;color:#b8c9d6;margin-top:6px}#help{display:none!important}#status{bottom:143px}#experience.collapsed #experienceBody{display:none}#experienceToggle{float:right;min-height:24px;padding:2px 8px!important;margin:0!important}@media(max-width:650px){#experience{top:82px;left:7px;width:min(194px,49vw);padding:7px}#experience h3{font-size:10px}#objective{font-size:10px}#actions{gap:4px;right:6px;bottom:12px}#actions button{padding:8px 9px;font-size:11px}#danceMoves{max-width:94px;font-size:10px}#stick{left:9px;bottom:15px}#hud strong{font-size:13px}} #seaPanel{position:fixed;right:10px;top:360px;z-index:6;display:flex;flex-direction:column;gap:5px;max-width:122px}#seaPanel button{font-size:11px;padding:9px 7px;border-radius:9px;background:#073a51e8}#seaPanel button.selected{background:#116e8c;border-color:#9af5ff}@media(max-height:650px){#seaPanel{top:255px;right:9px}#seaPanel button{padding:5px;font-size:10px}} #devStatus{position:fixed;right:12px;top:12px;z-index:25;font:11px system-ui;color:#d5faff;background:#031723c9;padding:7px 9px;border-radius:9px;pointer-events:none}#quickHelp{position:fixed;left:12px;top:60px;z-index:25;max-width:min(310px,85vw);background:#031723eb;border:1px solid #7cdcff77;border-radius:12px;padding:12px;font-size:12px;line-height:1.5;display:none}#quickHelp button{padding:7px 10px;margin-top:8px}#helpToggle{position:fixed;right:12px;top:43px;z-index:25;padding:7px 10px;font-size:12px}
+/* v11 — touch-first visual system */
+:root{--glass:rgba(5,16,32,.79);--line:rgba(130,221,249,.26);--aqua:#73edff;--pink:#ff75df}
+button,select{font-family:inherit;transition:background .18s ease,transform .12s ease,border-color .18s ease;letter-spacing:.035em}
+button:active{transform:scale(.96)}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+#hud{top:max(12px,env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));z-index:4}
+#hud strong{font-size:clamp(13px,2.5vw,19px);font-weight:900;letter-spacing:.19em;background:linear-gradient(95deg,#fff,#7defff 65%,#f6b6ff);color:transparent;background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 2px 8px #000)}
+#hud small{font-weight:500;color:#c6f1ff;letter-spacing:.035em}
+#experience,#quickHelp,#creatorPanel{background:linear-gradient(145deg,rgba(10,28,49,.93),rgba(5,13,28,.88));border:1px solid var(--line);box-shadow:0 12px 35px #0008, inset 0 1px 0 #ffffff14;backdrop-filter:blur(16px)}
+#experience h3{color:var(--aqua);font-weight:850}
+#creator{background:radial-gradient(ellipse at 20% 10%,#19436bdd,transparent 55%),radial-gradient(ellipse at 90% 90%,#56215ccc,transparent 55%),#050b18f7}
+#creatorPanel{border-radius:24px;padding:clamp(12px,3vw,26px)}
+#creatorPanel h2{font-size:clamp(19px,3vw,29px);background:linear-gradient(90deg,#eaffff,#8cf5ff,#e3b5ff);color:transparent;background-clip:text;-webkit-background-clip:text}
+#enterIsland,#dance{background:linear-gradient(135deg,#077c9c,#ab2c9c)!important;border:1px solid #b3f5ff99!important;box-shadow:0 0 20px #12e7ff33;font-weight:800}
+#stick{border:2px solid #b2f5ff70;background:radial-gradient(circle,#4edfff20,#09213970);box-shadow:0 0 28px #00dfff22,inset 0 0 20px #0008;bottom:max(18px,env(safe-area-inset-bottom));left:max(15px,env(safe-area-inset-left))}
+#knob{background:radial-gradient(circle at 35% 30%,#fff,#72eaff 55%,#117ea0);box-shadow:0 0 18px #41e9ffb3}
+#actions{bottom:max(17px,env(safe-area-inset-bottom));right:max(14px,env(safe-area-inset-right));z-index:7}
+#status{background:linear-gradient(90deg,transparent,#031526bb 20%,#031526bb 80%,transparent);padding:6px 15px;color:#e5faff;letter-spacing:.03em}
+#devStatus{top:max(12px,env(safe-area-inset-top));background:#061522a9;border:1px solid #72eaff33;font-variant-numeric:tabular-nums}
+#seaPanel button,#caveControls button,#avatarBtn,#viewBtn,#weather,#helpToggle,#music{background:var(--glass);border:1px solid var(--line);box-shadow:0 5px 20px #0007;backdrop-filter:blur(12px)}
+#seaPanel button:active,#caveControls button:active{background:#17617b}
+#map{border:1px solid #9fe8ff55;box-shadow:0 0 22px #00baff25,0 6px 20px #0008}
+#quickHelp{z-index:30;border-radius:18px}
+#qualityToast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:31;background:#071728ed;border:1px solid #8be9ff99;padding:13px 18px;border-radius:13px;color:#f0fbff;font-size:13px;text-align:center;pointer-events:none;opacity:0;transition:opacity .25s}
+#qualityToast.show{opacity:1}
+@media(max-width:700px){#hud strong{font-size:13px}#seaPanel{max-width:105px}#seaPanel button{font-size:10px}#status{font-size:11px}#creatorPanel{max-height:94dvh}}
+@media(prefers-reduced-motion:reduce){button,select,#qualityToast{transition:none}}
+
+/* v15: landscape-first mobile game layout */
+#rotateScreen{display:none;position:fixed;inset:0;z-index:1000;background:radial-gradient(circle at 50% 25%,#17425e,#050b1a 70%);color:#eafaff;align-items:center;justify-content:center;text-align:center;padding:28px;touch-action:manipulation}
+#rotateScreen .rotateInner{max-width:330px}#rotateScreen .phoneIcon{font-size:64px;display:block;margin-bottom:12px;animation:tilt 2.4s ease-in-out infinite alternate}
+#rotateScreen h2{font-size:22px;letter-spacing:.08em;margin:6px 0}#rotateScreen p{font-size:14px;line-height:1.55;color:#b7d9e8}#rotateScreen button{padding:12px 20px;border-radius:12px;background:#137fa0;color:#fff;border:1px solid #91edff;font-weight:700}
+@keyframes tilt{from{transform:rotate(-18deg)}to{transform:rotate(72deg)}}
+@media (orientation:portrait) and (pointer:coarse){#rotateScreen{display:flex!important}}
+@media (orientation:landscape) and (max-height:550px){
+ #hud{top:5px;left:max(8px,env(safe-area-inset-left))}#hud strong{font-size:12px}#hud small{font-size:9px}
+ #experience{top:43px;left:max(6px,env(safe-area-inset-left));width:170px;padding:5px}#experience h3{font-size:9px}#experience button{padding:4px 6px;font-size:9px}#experience small{font-size:9px}
+ #devStatus{top:5px;right:8px;padding:3px 6px;font-size:9px}#helpToggle{top:27px;right:8px;padding:4px 7px;font-size:10px}
+ #music{top:54px!important;right:8px!important;padding:5px!important;font-size:10px!important}
+ #weather{top:87px!important;right:8px!important;padding:5px!important;font-size:10px!important}#weatherLabel{display:none}
+ #avatarBtn{top:119px!important;right:8px!important;padding:5px!important;font-size:10px!important}#viewBtn{top:150px!important;right:8px!important;padding:5px!important;font-size:10px!important}
+ #seaPanel{top:183px;right:8px;max-width:100px;gap:3px}#seaPanel button{padding:4px 5px;font-size:9px}
+ #caveControls{bottom:70px!important;right:8px!important;gap:4px!important}#caveControls button{padding:5px!important;font-size:9px!important}
+ #actions{bottom:max(5px,env(safe-area-inset-bottom));right:max(8px,env(safe-area-inset-right));gap:4px}#actions button{padding:7px 8px;font-size:10px}#danceMoves{max-width:100px;font-size:10px}
+ #stick{bottom:max(7px,env(safe-area-inset-bottom));left:max(8px,env(safe-area-inset-left));transform:scale(.76);transform-origin:bottom left}
+ #status{bottom:5px;left:25%;right:25%;font-size:9px;padding:3px;pointer-events:none}#map{transform:scale(.64);transform-origin:top right;top:40px!important;right:112px!important}
+ #creatorPanel{max-height:96dvh;padding:10px}#creatorPanel h2{font-size:17px}#creatorPanel p{margin:3px 0}#avatarPreview{height:min(58dvh,210px)}#creatorGrid{grid-template-columns:42% 1fr;gap:10px}#creator label{margin:3px 0 2px;font-size:10px}#creator select{padding:3px;font-size:11px}#creatorActions{margin-top:6px}#creatorActions button{padding:6px}
+}
+
+/* v16 exploration / photo mode */
+#explorerTools{position:fixed;top:clamp(55px,13vh,82px);left:10px;z-index:18;display:flex;gap:6px;align-items:center;pointer-events:auto}
+#explorerTools button{border:1px solid #83d9e8;background:rgba(6,23,43,.86);color:#e5fbff;border-radius:9px;padding:8px 10px;font-weight:700;font-size:11px;backdrop-filter:blur(8px)}
+#compassBar{position:fixed;left:50%;top:8px;transform:translateX(-50%);z-index:11;border:1px solid #85c5df77;border-radius:20px;background:#071629bd;color:#f3faff;font:700 12px system-ui;padding:6px 15px;letter-spacing:2px;pointer-events:none}
+body.photoMode #hud,body.photoMode #experience,body.photoMode #help,body.photoMode #map,body.photoMode #music,body.photoMode #avatarBtn,body.photoMode #viewBtn,body.photoMode #weather,body.photoMode #weatherLabel,body.photoMode #seaPanel,body.photoMode #cross,body.photoMode #status,body.photoMode #stick,body.photoMode #actions,body.photoMode #caveControls,body.photoMode #devStatus,body.photoMode #helpToggle,body.photoMode #quickHelp,body.photoMode #compassBar{display:none!important}
+body.photoMode #explorerTools{top:8px;left:8px}
+@media(max-height:440px){#explorerTools{top:42px;left:6px}#explorerTools button{font-size:10px;padding:5px 7px}#compassBar{top:4px;padding:3px 9px;font-size:10px}}
+#musicControls{position:fixed;top:146px;right:12px;display:flex;gap:5px;z-index:5}#musicControls #music{position:static!important;font-size:11px;padding:9px!important}#changeMusic{padding:7px 10px;font-size:18px;background:#062c3ecc;border:1px solid #85e9ff99}body.photoMode #musicControls{display:none!important}@media (orientation:landscape) and (max-height:550px){#musicControls{top:54px;right:8px}#musicControls #music{font-size:10px!important;padding:5px!important}#changeMusic{padding:3px 7px!important}}
+</style></head><body><div id="rotateScreen" role="dialog" aria-label="Landscape orientation required"><div class="rotateInner"><span class="phoneIcon" aria-hidden="true">📱</span><h2>TURN YOUR PHONE SIDEWAYS</h2><p>Virtual Raver 2069 is designed for widescreen landscape play. Rotate your device and enable Auto rotate if needed.</p><button id="landscapeLock">TRY LANDSCAPE MODE</button></div></div><div id="creator"><div id="creatorPanel"><h2>CREATE YOUR RAVER</h2><p>Customize your avatar • drag the model to rotate • preview your look before entering the island</p><div id="creatorGrid"><div id="avatarPreview"></div><div><label for="skin">Skin tone</label><select id="skin"><option value="0">Porcelain</option><option value="1">Fair</option><option value="2" selected>Warm tan</option><option value="3">Olive</option><option value="4">Brown</option><option value="5">Deep brown</option></select><label for="hair">Hairstyle</label><select id="hair"><option value="short">Short textured</option><option value="swept">Swept back</option><option value="curly">Curly</option><option value="long">Long</option><option value="bald">Shaved</option></select><label for="hairColor">Hair color</label><select id="hairColor"><option value="0">Black</option><option value="1" selected>Dark brown</option><option value="2">Chestnut</option><option value="3">Blonde</option><option value="4">Silver</option><option value="5">Electric blue</option></select><label for="outfit">Outfit</label><select id="outfit"><option value="0">Midnight streetwear</option><option value="1">Neon festival</option><option value="2">Tropical explorer</option><option value="3">Cyber rave</option></select><label for="build">Body build</label><input id="build" type="range" min="0" max="100" value="50"><label for="heightChoice">Height</label><input id="heightChoice" type="range" min="0" max="100" value="50"></div></div><div id="creatorActions"><button id="randomAvatar">RANDOMIZE</button><button id="enterIsland">ENTER ISLAND</button></div><div id="creatorNote">Procedural prototype avatars, not photorealistic scans. Appearance is saved on this device when browser storage is available.</div></div></div><div id="loading"><div><h2>VIRTUAL RAVER 2069</h2><p>Preparing your island adventure…</p></div></div><div id="hud"><strong>VIRTUAL RAVER 2069</strong><small id="coords">Tropical island • third-person exploration</small></div><section id="experience" aria-label="Island adventure"><button id="experienceToggle" aria-label="Toggle adventure panel">−</button><h3>ISLAND ADVENTURE</h3><div id="experienceBody"><div id="objective">Explore the beach rave to begin.</div><small id="progress">0 / 3 discoveries</small><label for="travel" style="font-size:10px;color:#b6d7ea">VISIT</label><select id="travel" aria-label="Choose landmark"><option value="stage">Rave beach</option><option value="volcano">Volcano overlook</option><option value="coast">Moonlit coast</option></select><button id="goTravel">GO</button><button id="graphics">ECO GRAPHICS</button><button id="resetQuest">RESET</button></div></section><div id="help">Left thumb: move • right side: orbit camera<br>Find the beach rave and climb the volcano</div><div id="map"><canvas id="minimap" width="236" height="236"></canvas></div><div id="musicControls"><button id="music">♫ PLAY ASTRONOMY</button><button id="changeMusic" aria-label="Load another CiViLX track">＋</button></div><button id="avatarBtn">◉ AVATAR</button><button id="viewBtn">◈ 1ST PERSON</button><button id="weather">☁ WEATHER: CLEAR</button><span id="weatherLabel">Cinematic night sky • moonlit island</span><div id="seaPanel" aria-label="Ocean adventure"><button id="boatTour">⛵ BOAT TOUR</button><button id="reefDive">🐠 REEF DIVE</button><button id="shoreReturn">🏝 RETURN</button></div><input id="audio" type="file" accept="audio/*" style="display:none"><div id="cross">+</div><div id="status">Explore the island at night • 3.2 km across</div><div id="stick"><div id="knob"></div></div><div id="actions"><select id="danceMoves" aria-label="Choose dance move"><option value="shuffle">Melbourne Shuffle</option><option value="floss">Floss</option><option value="robot">Robot</option><option value="moonwalk">Moonwalk</option><option value="disco">Disco Point</option><option value="wave">Body Wave</option><option value="bounce">Festival Bounce</option></select><button id="dance" aria-pressed="false">♫ DANCE</button><button id="sprint">RUN</button><button id="jump">JUMP</button></div>
+<div id="caveControls" style="position:fixed;bottom:125px;right:12px;z-index:9;display:flex;flex-direction:column;gap:8px">
+<button id="caveEnter" style="background:#35204e;color:#e5d7ff;border:1px solid #ab84ff;border-radius:12px;padding:11px;font-weight:700">💎 VOLCANO CRYSTAL CAVE</button>
+<button id="heartBtn" style="display:none;background:#9d226e;color:white;border:1px solid #ff9ee1;border-radius:12px;padding:11px;font-weight:700">✨ HEART RAVE</button>
+<button id="caveExit" style="display:none;background:#35204e;color:white;border:1px solid #ab84ff;border-radius:12px;padding:11px;font-weight:700">↩ EXIT CAVE</button></div>
+<div id="compassBar" aria-label="Compass heading">N · 000°</div><div id="explorerTools"><button id="photoModeBtn" aria-pressed="false">📷 PHOTO MODE</button><button id="takePhotoBtn" style="display:none">SAVE PHOTO</button></div><div id="devStatus" aria-live="off">FPS: measuring…</div><button id="helpToggle" aria-expanded="false" aria-controls="quickHelp">? HELP</button><section id="quickHelp" role="dialog" aria-label="Game controls"><b>Virtual Raver 2069</b><p>Left thumb: move. Drag the right side: look around. RUN to sprint, JUMP to jump, DANCE to choose and perform moves. VISIT fast-travels. Enter the volcano cave for a long crystal expedition. Use GRAPHICS to reduce lag.</p><button id="closeHelp">Close</button></section><script>const helpPanel=document.getElementById('quickHelp');function toggleHelp(show){helpPanel.style.display=show?'block':'none';document.getElementById('helpToggle').setAttribute('aria-expanded',String(show))}document.getElementById('helpToggle').onclick=()=>toggleHelp(helpPanel.style.display!=='block');document.getElementById('closeHelp').onclick=()=>toggleHelp(false);</script><script>
+try { const c=document.createElement('canvas'); if(!c.getContext('webgl2') && !c.getContext('webgl')) throw Error('WebGL unavailable'); }
+catch(e) { document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('loading');if(el)el.innerHTML='<div><h2>3D NOT SUPPORTED</h2><p>This browser cannot start WebGL. Try the latest Chrome on an Android phone with graphics acceleration enabled.</p></div>';}); }
+window.addEventListener('error', function(event) {
+  const loading=document.getElementById('loading');
+  if (!loading) return;
+  loading.innerHTML='<div><h2>UNABLE TO START</h2><p>The 3D engine could not load. Check your internet connection and that WebGL is enabled in Chrome, then reload.</p><button onclick="location.reload()">RETRY</button></div>';
+});
+window.addEventListener('unhandledrejection', function(event) {
+  const loading=document.getElementById('loading');
+  if (!loading) return;
+  loading.innerHTML='<div><h2>GAME LOAD FAILED</h2><p>Check your connection and reload. If it continues, try Chrome with hardware acceleration enabled.</p><button onclick="location.reload()">RETRY</button></div>';
+});
+</script><script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+// v17 landscape photo mode and compass. Screenshot is generated locally on the player's device.
+let photoMode=false;
+const photoModeBtn=document.getElementById('photoModeBtn'),takePhotoBtn=document.getElementById('takePhotoBtn');
+function setPhotoMode(enabled){photoMode=enabled;document.body.classList.toggle('photoMode',enabled);photoModeBtn.textContent=enabled?'✕ EXIT PHOTO':'📷 PHOTO MODE';photoModeBtn.setAttribute('aria-pressed',String(enabled));takePhotoBtn.style.display=enabled?'inline-block':'none';}
+photoModeBtn.addEventListener('click',()=>setPhotoMode(!photoMode));
+document.addEventListener('keydown',e=>{if(e.code==='Escape'&&photoMode)setPhotoMode(false)});
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x020510);scene.fog=new THREE.FogExp2(0x061026,.00016);
+const camera=new THREE.PerspectiveCamera(73,innerWidth/innerHeight,.15,3200);const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.02;document.body.prepend(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0x668bc8,0x0b1a18,.85));const sun=new THREE.DirectionalLight(0x98b8ff,.85);sun.position.set(-800,1000,-1300);scene.add(sun);
+const mat=(c,roughness=1)=>new THREE.MeshStandardMaterial({color:c,roughness});const sand=mat(0xd9c08c),grass=mat(0x527d45),rock=mat(0x665c55),lava=new THREE.MeshBasicMaterial({color:0xff4b09}),trunk=mat(0x73513a),leaf=mat(0x28794a),water=new THREE.MeshPhongMaterial({color:0x148fba,transparent:true,opacity:.83,shininess:85,flatShading:true});
+const SIZE=3200, HALF=SIZE/2, VOLX=450,VOLZ=-360;
+function hash(x,z){let a=Math.sin(x*127.1+z*311.7)*43758.5453;return a-Math.floor(a)}
+function noise(x,z){let ix=Math.floor(x),iz=Math.floor(z),fx=x-ix,fz=z-iz;fx=fx*fx*(3-2*fx);fz=fz*fz*(3-2*fz);return THREE.MathUtils.lerp(THREE.MathUtils.lerp(hash(ix,iz),hash(ix+1,iz),fx),THREE.MathUtils.lerp(hash(ix,iz+1),hash(ix+1,iz+1),fx),fz)}
+function height(x,z){if(x>4500)return 8;let r=Math.sqrt((x/1450)**2+(z/1370)**2);let shore=THREE.MathUtils.smoothstep(1-r,0,.32);let base=-17+shore*(34+22*noise(x/280,z/280)+9*noise(x/85,z/85));let d=Math.hypot(x-VOLX,z-VOLZ);let cone=Math.max(0,1-d/660);let mountain=cone*cone*550;let crater=Math.max(0,1-d/112);mountain-=crater*crater*135;return base+mountain}
+const terrainGeo=new THREE.PlaneGeometry(SIZE,SIZE,180,180);terrainGeo.rotateX(-Math.PI/2);const p=terrainGeo.attributes.position;const colors=[];let c=new THREE.Color();for(let i=0;i<p.count;i++){let x=p.getX(i),z=p.getZ(i),h=height(x,z);p.setY(i,h);let n=noise(x/60,z/60);if(h<8)c.set(0xc7b58a);else if(h<25)c.set(0x9eaa72);else if(h<140)c.set(0x447846);else if(h<280)c.set(0x4c6548);else c.set(0x6d6159);c.multiplyScalar(.84+n*.32);colors.push(c.r,c.g,c.b)}terrainGeo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));terrainGeo.computeVertexNormals();scene.add(new THREE.Mesh(terrainGeo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,flatShading:false})));
+// Mobile-friendly animated ocean shader with two wave scales, fresnel glints and moon reflections.
+const oceanUniforms={uTime:{value:0},uMoon:{value:new THREE.Vector3(-.52,.62,-.58)},uQuality:{value:1}};
+const oceanMat=new THREE.ShaderMaterial({uniforms:oceanUniforms,transparent:false,vertexShader:`
+varying vec3 vWorld; varying vec3 vNormal; uniform float uTime;
+void main(){vec3 pos=position; float w=sin(pos.x*.018+uTime*.75)*.48+cos(pos.y*.025-uTime*.6)*.34;
+pos.z+=w; vec4 world=modelMatrix*vec4(pos,1.);vWorld=world.xyz;vNormal=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*world;}`,fragmentShader:`
+precision mediump float; varying vec3 vWorld;varying vec3 vNormal;uniform float uTime;uniform vec3 uMoon;
+void main(){float a=sin(vWorld.x*.027+uTime*.9)*cos(vWorld.z*.022-uTime*.7);float b=sin(vWorld.x*.085+vWorld.z*.062-uTime*1.6);float wave=.5+.5*a;vec3 deep=vec3(.006,.065,.13);vec3 turquoise=vec3(.025,.24,.29);vec3 color=mix(deep,turquoise,wave*.55);float spark=pow(max(0.,sin(vWorld.x*.17+vWorld.z*.14+uTime*1.7)),20.)*pow(max(0.,b),5.);color+=vec3(.11,.31,.38)*spark*.35;float moon=pow(max(0.,1.-abs(vWorld.x*.00045+vWorld.z*.00022+.1)),16.)*pow(max(0.,b*.5+.5),9.);color+=vec3(.14,.20,.30)*moon;gl_FragColor=vec4(color,1.);}`});
+const ocean=new THREE.Mesh(new THREE.PlaneGeometry(8500,8500,96,96),oceanMat);ocean.rotation.x=-Math.PI/2;ocean.position.y=0;scene.add(ocean);
+// Additional ground texture without image downloads: multiscale rock and sand coloration.
+const surfaceColors=terrainGeo.attributes.color;for(let i=0;i<p.count;i++){let xx=p.getX(i),zz=p.getZ(i),h=p.getY(i);let fine=noise(xx/13,zz/13),grain=noise(xx/5,zz/5),shade=.79+.25*fine+.12*grain;let cc=new THREE.Color().fromBufferAttribute(surfaceColors,i);cc.multiplyScalar(shade);if(h<10){cc.lerp(new THREE.Color(0xe4c89b),.23)}else if(h>280){cc.lerp(new THREE.Color(0x797c83),.22)}surfaceColors.setXYZ(i,cc.r,cc.g,cc.b)}surfaceColors.needsUpdate=true;
+// Volcanic boulders and shore stones are GPU-instanced for low draw-call cost.
+const pebbleGeometry=new THREE.DodecahedronGeometry(1,0);const pebbleMaterial=new THREE.MeshStandardMaterial({color:0x7b817c,roughness:.96,flatShading:true});
+const pebbleCount=460;const pebbles=new THREE.InstancedMesh(pebbleGeometry,pebbleMaterial,pebbleCount);const dummyPebble=new THREE.Object3D();const pebbleColor=new THREE.Color();
+for(let i=0;i<pebbleCount;i++){let xx=(hash(i,72)-.5)*SIZE*.93,zz=(hash(i,73)-.5)*SIZE*.93,hh=height(xx,zz);let scale=.9+hash(i,74)*4.8;dummyPebble.position.set(xx,hh+.12,zz);dummyPebble.rotation.set(hash(i,75)*.5,hash(i,76)*6.28,hash(i,77)*.5);dummyPebble.scale.set(scale,scale*(.35+hash(i,78)*.35),scale*.8);dummyPebble.updateMatrix();pebbles.setMatrixAt(i,dummyPebble.matrix);pebbleColor.setHSL(.12+hash(i,79)*.05,.05,.23+hash(i,80)*.19);pebbles.setColorAt(i,pebbleColor)}pebbles.instanceMatrix.needsUpdate=true;scene.add(pebbles);
+// Glowing floating plankton near the shore: restrained, not an all-over particle storm.
+const glimmerPositions=[];for(let i=0;i<260;i++){let angle=hash(i,81)*Math.PI*2,r=1320+hash(i,82)*260;glimmerPositions.push(Math.cos(angle)*r,.35+hash(i,83)*.5,Math.sin(angle)*r)}const glimmerGeo=new THREE.BufferGeometry();glimmerGeo.setAttribute('position',new THREE.Float32BufferAttribute(glimmerPositions,3));const glimmers=new THREE.Points(glimmerGeo,new THREE.PointsMaterial({color:0x3fd7db,size:2.2,transparent:true,opacity:.44,depthWrite:false,sizeAttenuation:true}));scene.add(glimmers);
+
+
+// Volcano Crystal Cave v7 — a ~800 m winding guided-length walking route.
+const CAVE_BASE=5100,CAVE_LENGTH=820;
+const caveCenter=z=>CAVE_BASE+24*Math.sin(z/115)+12*Math.sin(z/47);
+let caveActive=false,caveVisited=false;
+const caveGroup=new THREE.Group();scene.add(caveGroup);
+const caveStone=new THREE.MeshStandardMaterial({color:0x252b3a,roughness:1,side:THREE.DoubleSide});
+const caveFloorMat=new THREE.MeshStandardMaterial({color:0x343641,roughness:1});
+const crystalColors=[0x64ecff,0xb88aff,0x7afbc7,0xffc48b,0xff83d5];
+const crystalMats=crystalColors.map(c=>new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.45,roughness:.24,metalness:.12}));
+const caveLights=[];const caveCrystals=[];
+for(let i=0;i<103;i++){
+ const z=i*8,cx=caveCenter(z),angle=Math.atan2(caveCenter(z+2)-caveCenter(z-2),4);
+ const ring=[];for(let j=0;j<=12;j++){let a=Math.PI*j/12,xx=Math.cos(a)*10,yy=8+Math.sin(a)*12;ring.push(new THREE.Vector3(cx+xx*Math.cos(angle),yy,z-xx*Math.sin(angle)))}
+ if(i>0){const prev=caveGroup.userData.lastRing;const vertices=[];for(let j=0;j<12;j++){let a=prev[j],b=prev[j+1],c=ring[j],d=ring[j+1];vertices.push(...a,...c,...b,...b,...c,...d)}let g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));g.computeVertexNormals();caveGroup.add(new THREE.Mesh(g,caveStone));}
+ caveGroup.userData.lastRing=ring;
+ if(i<102){const floor=new THREE.Mesh(new THREE.BoxGeometry(18,.45,8.4),caveFloorMat);floor.position.set(cx,7.85,z+4);floor.rotation.y=angle;caveGroup.add(floor)}
+ if(i%2===0&&i>1){for(const side of [-1,1]){const cluster=new THREE.Group();cluster.position.set(cx+side*(5.7+hash(i,side)*2.1),8.1,z+hash(i,8)*5);cluster.rotation.z=side*.2;
+  for(let j=0;j<3;j++){const h=1.8+hash(i,j+2)*5.6;const crystal=new THREE.Mesh(new THREE.ConeGeometry(.55+hash(i,j)*.7,h,5),crystalMats[(i+j)%5]);crystal.position.set((j-1)*.75,h*.43,(j-1)*.5);crystal.rotation.z=(j-1)*.2;cluster.add(crystal)}caveGroup.add(cluster);caveCrystals.push(cluster)}}
+ if(i%7===0){const c=crystalColors[Math.floor(i/7)%5];const l=new THREE.PointLight(c,3.8,43,2);l.position.set(cx,15,z);caveGroup.add(l);caveLights.push(l)}
+}
+for(const [z,r] of [[150,13],[330,18],[520,21],[720,16]]){const cx=caveCenter(z);const dome=new THREE.Mesh(new THREE.SphereGeometry(r,16,10),new THREE.MeshStandardMaterial({color:0x20283b,side:THREE.BackSide,roughness:1}));dome.position.set(cx,12,z);dome.scale.y=.85;caveGroup.add(dome);for(let i=0;i<22;i++){const a=i*2.399,rr=3+hash(i,z)*r*.65,h=2+hash(i,z+3)*8;const spire=new THREE.Mesh(new THREE.ConeGeometry(.6+hash(i,z+8)*1.2,h,5),crystalMats[(i+z)%5]);spire.position.set(cx+Math.cos(a)*rr,8+h*.4,z+Math.sin(a)*rr);caveGroup.add(spire)}}
+// Heart of the Volcano: dramatic destination at the end of the full walking trail.
+const heart=new THREE.Group();heart.position.set(caveCenter(804),8,804);caveGroup.add(heart);
+const heartLavaMat=new THREE.MeshBasicMaterial({color:0xff4a0a,transparent:true,opacity:.86});
+const heartPool=new THREE.Mesh(new THREE.RingGeometry(7,16,48),heartLavaMat);heartPool.rotation.x=-Math.PI/2;heartPool.position.y=.08;heart.add(heartPool);
+const heartStone=new THREE.MeshStandardMaterial({color:0x151521,roughness:.8});
+const dais=new THREE.Mesh(new THREE.CylinderGeometry(6,7,1.4,32),heartStone);dais.position.y=.7;heart.add(dais);
+const heartCore=new THREE.Group();heartCore.position.y=5.5;heart.add(heartCore);
+for(let i=0;i<12;i++){let a=i*Math.PI*2/12,h=9+(i%4)*3.1;let gem=new THREE.Mesh(new THREE.ConeGeometry(1.3+(i%3)*.32,h,6),crystalMats[i%5]);gem.position.set(Math.cos(a)*4.1,h*.42,Math.sin(a)*4.1);gem.rotation.z=Math.cos(a)*.22;gem.rotation.x=Math.sin(a)*.22;heart.add(gem)}
+const coreGem=new THREE.Mesh(new THREE.OctahedronGeometry(4.5,1),new THREE.MeshStandardMaterial({color:0x99eaff,emissive:0x4a40ff,emissiveIntensity:1.4,metalness:.25,roughness:.16}));heartCore.add(coreGem);
+const coreLight=new THREE.PointLight(0xaa55ff,8,70,2);coreLight.position.y=9;heart.add(coreLight);
+const lavaGlow=new THREE.PointLight(0xff3a0c,6,50,2);lavaGlow.position.set(0,2,0);heart.add(lavaGlow);
+const heartBeams=[];for(let i=0;i<6;i++){let a=i*Math.PI/3;let beam=new THREE.Mesh(new THREE.ConeGeometry(1.7,24,8,1,true),new THREE.MeshBasicMaterial({color:i%2?0xff39a8:0x44eaff,transparent:true,opacity:.13,depthWrite:false,side:THREE.DoubleSide}));beam.position.set(Math.cos(a)*4.5,13,Math.sin(a)*4.5);beam.rotation.z=.22*Math.cos(a);beam.rotation.x=.22*Math.sin(a);heart.add(beam);heartBeams.push(beam)}
+const heartSignCanvas=document.createElement('canvas');heartSignCanvas.width=512;heartSignCanvas.height=128;let hs=heartSignCanvas.getContext('2d');hs.fillStyle='#101020';hs.fillRect(0,0,512,128);hs.textAlign='center';hs.font='bold 62px sans-serif';hs.fillStyle='#8af5ff';hs.shadowColor='#b55bff';hs.shadowBlur=22;hs.fillText('CiViLX',256,81);const heartSign=new THREE.Mesh(new THREE.PlaneGeometry(12,3),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(heartSignCanvas),side:THREE.DoubleSide}));heartSign.position.set(0,8,-10);heart.add(heartSign);
+let heartRave=false,heartUnlocked=false;
+const heartBtn=document.getElementById('heartBtn');heartBtn.onclick=()=>{if(!caveActive||z<775)return;heartRave=!heartRave;heartBtn.textContent=heartRave?'⏹ STOP HEART RAVE':'✨ HEART RAVE';document.getElementById('status').textContent=heartRave?'♫ Heart of the Volcano — dance to your selected CiViLX music':'Heart rave paused';};
+function updateHeart(now){const t=now*.001;heartCore.rotation.y=t*.26;heartCore.position.y=5.5+Math.sin(t*1.2)*.65;coreLight.intensity=(heartRave?12:7)+Math.sin(t*(heartRave?7:2))*2;lavaGlow.intensity=5+Math.sin(t*2)*1.5;heartPool.material.opacity=.76+.14*Math.sin(t*1.8);for(let i=0;i<heartBeams.length;i++){heartBeams[i].rotation.y=t*(heartRave?1.2:.18)+i;heartBeams[i].material.opacity=heartRave?.22:.075}}
+function enterCave(){if(seaMode!=='shore')return;caveActive=true;x=caveCenter(4);z=4;y=10.3;vy=0;yaw=Math.PI;camera.position.set(x,14,z-7);document.getElementById('caveExit').style.display='block';heartBtn.style.display='none';heartRave=false;document.getElementById('caveEnter').style.display='none';document.getElementById('status').textContent='VOLCANO CRYSTAL CAVE • Follow the glowing crystal trail';}
+function exitCave(){caveActive=false;heartRave=false;heartBtn.style.display='none';x=VOLX+210;z=VOLZ+235;y=height(x,z)+2.3;vy=0;document.getElementById('caveExit').style.display='none';document.getElementById('caveEnter').style.display='block';document.getElementById('status').textContent='Returned to Volcano Overlook';}
+document.getElementById('caveEnter').onclick=enterCave;
+document.getElementById('caveExit').onclick=exitCave;
+
+// Ocean Adventure v6: guided whale-watching vessel and a coral reef observation dive.
+const reefCenter=new THREE.Vector3(-1470,-9,545);
+const reef=new THREE.Group();reef.position.copy(reefCenter);scene.add(reef);
+const reefRockMat=new THREE.MeshStandardMaterial({color:0x3a6970,roughness:1});
+const coralMats=[0xff6b80,0xffa54d,0xb67af0,0x44c5a5,0xffd26a].map(color=>new THREE.MeshStandardMaterial({color,roughness:.85}));
+const reefBase=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),reefRockMat);reefBase.scale.set(72,6,46);reef.add(reefBase);
+for(let i=0;i<105;i++){
+ const a=hash(i,22)*Math.PI*2,r=Math.sqrt(hash(i,39)),px=Math.cos(a)*r*64,pz=Math.sin(a)*r*39;
+ const coral=new THREE.Group();coral.position.set(px,3.5+hash(i,8)*1.5,pz);
+ const material=coralMats[i%coralMats.length];
+ for(let j=0;j<3;j++){const branch=new THREE.Mesh(new THREE.CylinderGeometry(.3,.8,3+hash(i,j)*5,5),material);branch.position.set((j-1)*1.2,2+(j%2),0);branch.rotation.z=(j-1)*.3;coral.add(branch)}reef.add(coral)
+}
+const fish=[];for(let i=0;i<35;i++){
+ const fishBody=new THREE.Mesh(new THREE.SphereGeometry(1,8,6),new THREE.MeshStandardMaterial({color:[0xffd65b,0x66ddf1,0xff8aa9,0xb7d979][i%4],roughness:.6}));
+ fishBody.scale.set(1.6,.65,.35);const tail=new THREE.Mesh(new THREE.ConeGeometry(.65,1.4,3),fishBody.material);tail.rotation.z=-Math.PI/2;tail.position.x=-1.7;fishBody.add(tail);reef.add(fishBody);fish.push({mesh:fishBody,angle:hash(i,51)*6.28,rad:6+hash(i,9)*49,depth:6+hash(i,15)*7,speed:.2+hash(i,12)*.6})
+}
+const boat=new THREE.Group();scene.add(boat);
+const hull=new THREE.Mesh(new THREE.BoxGeometry(10,2.4,22),new THREE.MeshStandardMaterial({color:0xe5e9ed,roughness:.65}));hull.position.y=1;boat.add(hull);
+const deck=new THREE.Mesh(new THREE.BoxGeometry(9,0.35,18),new THREE.MeshStandardMaterial({color:0x71503b}));deck.position.y=2.4;boat.add(deck);
+const cabin=new THREE.Mesh(new THREE.BoxGeometry(6,4,6),new THREE.MeshStandardMaterial({color:0xdee6e8}));cabin.position.set(0,4.4,-3);boat.add(cabin);
+for(let side of [-1,1]){const rail=new THREE.Mesh(new THREE.BoxGeometry(.2,1,18),new THREE.MeshStandardMaterial({color:0x9cb6c2}));rail.position.set(side*4.3,3.1,0);boat.add(rail)}
+boat.visible=false;let seaMode='shore',seaClock=0;
+const seaButtons=['boatTour','reefDive','shoreReturn'];function setSeaMode(mode){seaMode=mode;seaClock=0;boat.visible=mode==='boat';seaButtons.forEach(id=>document.getElementById(id).classList.toggle('selected',id===(mode==='boat'?'boatTour':mode==='reef'?'reefDive':'shoreReturn')));
+ document.getElementById('status').textContent=mode==='boat'?'Whale watching • guided boat cruise':mode==='reef'?'Coral reef • underwater observation':'Back on Moonlit Coast';if(mode==='shore'){x=-1000;z=520;y=height(x,z)+2.3}}
+document.getElementById('boatTour').onclick=()=>setSeaMode('boat');document.getElementById('reefDive').onclick=()=>setSeaMode('reef');document.getElementById('shoreReturn').onclick=()=>setSeaMode('shore');
+function updateOceanAdventure(dt,now){seaClock+=dt;for(const f of fish){const a=seaClock*f.speed+f.angle;f.mesh.position.set(Math.cos(a)*f.rad,f.depth+Math.sin(a*2)*.7,Math.sin(a)*f.rad*.7);f.mesh.rotation.y=-a}
+ const underwater=seaMode==='reef';reef.visible=underwater || Math.hypot(x+1470,z-545)<320;
+ if(seaMode==='boat'){
+  const a=seaClock*.08;const bx=-1440+Math.cos(a)*110,bz=530+Math.sin(a)*130;
+  boat.position.set(bx,0,bz);boat.rotation.y=-a;boat.rotation.z=Math.sin(now*.001)*.025;
+  camera.position.set(bx+Math.sin(a)*24,13,bz+Math.cos(a)*24);camera.lookAt(bx,3,bz);avatarGroup.visible=false;
+ }else if(underwater){camera.position.set(-1470+Math.cos(seaClock*.11)*32,-3.2+Math.sin(seaClock*.7)*.6,545+Math.sin(seaClock*.11)*23);camera.lookAt(-1470, -5,545);avatarGroup.visible=false}
+}
+// Ocean wildlife: lightweight articulated whales and leaping dolphin pods.
+const marineLife=[];
+const whaleSkin=new THREE.MeshStandardMaterial({color:0x526b83,roughness:.7,flatShading:false});
+const whaleBelly=new THREE.MeshStandardMaterial({color:0xa9b8be,roughness:.8});
+const dolphinSkin=new THREE.MeshStandardMaterial({color:0x849eaf,roughness:.5});
+const seaFoam=new THREE.MeshBasicMaterial({color:0xc8efff,transparent:true,opacity:.45,depthWrite:false,side:THREE.DoubleSide});
+function marineFin(group,px,py,pz,size,material){const fin=new THREE.Mesh(new THREE.ConeGeometry(size,size*2,3),material);fin.position.set(px,py,pz);fin.rotation.z=-.25;group.add(fin);return fin}
+function makeMarineAnimal(kind,phase,orbitRadius,centerX,centerZ){
+ const whale=kind==='whale',scale=whale?1:0.52,skin=whale?whaleSkin:dolphinSkin;
+ const root=new THREE.Group(),body=new THREE.Group();root.add(body);
+ const torso=new THREE.Mesh(new THREE.SphereGeometry(1,16,10),skin);torso.scale.set((whale?11:5.4)*scale,(whale?2.6:1.35)*scale,(whale?2.8:1.3)*scale);body.add(torso);
+ const underside=new THREE.Mesh(new THREE.SphereGeometry(1,12,8),whaleBelly);underside.scale.set((whale?8.4:4.2)*scale,(whale?1.1:.58)*scale,(whale?2.1:1.04)*scale);underside.position.y=-1.15*scale;body.add(underside);
+ const snout=new THREE.Mesh(new THREE.ConeGeometry((whale?1.75:.85)*scale,(whale?4:2.7)*scale,10),skin);snout.rotation.z=-Math.PI/2;snout.position.x=(whale?10:5.1)*scale;body.add(snout);
+ marineFin(body,(-1)*scale,(whale?3.3:1.6)*scale,0,(whale?1.8:1.05)*scale,skin);
+ for(const side of [-1,1]){let flipper=new THREE.Mesh(new THREE.ConeGeometry((whale?1.25:.65)*scale,(whale?6.5:3)*scale,4),skin);flipper.rotation.x=side*1.18;flipper.position.set(0,-.4*scale,side*(whale?3.5:1.7)*scale);body.add(flipper)}
+ const tail=new THREE.Group();tail.position.x=-(whale?10:5)*scale;body.add(tail);
+ for(const side of [-1,1]){const fluke=new THREE.Mesh(new THREE.ConeGeometry((whale?1.4:.7)*scale,(whale?6:3)*scale,3),skin);fluke.rotation.x=side*Math.PI/2;fluke.position.z=side*(whale?2.7:1.35)*scale;tail.add(fluke)}
+ const eye=new THREE.Mesh(new THREE.SphereGeometry(.18*scale,8,6),new THREE.MeshBasicMaterial({color:0x07101a}));eye.position.set((whale?7.8:3.6)*scale,.65*scale,(whale?2.4:1.15)*scale);body.add(eye);
+ const ring=new THREE.Mesh(new THREE.RingGeometry((whale?4:2.3)*scale,(whale?5.4:3)*scale,24),seaFoam);ring.rotation.x=-Math.PI/2;root.add(ring);
+ root.position.set(centerX,0,centerZ);scene.add(root);
+ marineLife.push({root,body,tail,ring,whale,phase,orbitRadius,centerX,centerZ,scale});
+}
+// Offshore from Moonlit Coast; a few animals for affordable mobile rendering.
+for(let i=0;i<3;i++)makeMarineAnimal('whale',i*2.1,105+i*35,-1470-i*95,390+i*125);
+for(let i=0;i<8;i++)makeMarineAnimal('dolphin',i*.7,42+(i%3)*13,-1430-(i%3)*110,530+Math.floor(i/3)*85);
+function updateMarineLife(now){const t=now*.001;for(const a of marineLife){
+ const theta=t*(a.whale?.075:.25)+a.phase;
+ const px=a.centerX+Math.cos(theta)*a.orbitRadius,pz=a.centerZ+Math.sin(theta)*a.orbitRadius;
+ a.root.position.x=px;a.root.position.z=pz;
+ a.root.rotation.y=-theta;
+ // Whales surface slowly; dolphins leap in staggered arcs and dive back underwater.
+ const cycle=(t*(a.whale?.17:.55)+a.phase/(Math.PI*2))%1;
+ let surface=a.whale?Math.sin(cycle*Math.PI*2)*2.1-1.4:cycle<.52?Math.sin(cycle/.52*Math.PI)*7-1.2:-2.3;
+ a.body.position.y=surface;a.body.rotation.z=a.whale?Math.sin(t*.4+a.phase)*.035:cycle<.52?Math.cos(cycle/.52*Math.PI)*.3:0;
+ a.tail.rotation.z=Math.sin(t*(a.whale?2:7)+a.phase)*.23;
+ a.ring.position.y=.12;a.ring.visible=surface>-.9&&surface<2.5;
+ // Don't draw distant wildlife that cannot be seen from the coast.
+ a.root.visible=Math.hypot(x-px,z-pz)<1250;
+ }}
+
+// v17 botanical palms: curved tapering fronds replace the old cone-shaped crowns.
+// GPU instancing keeps the extra geometry affordable on Android.
+const barkCanvas=document.createElement('canvas');barkCanvas.width=128;barkCanvas.height=512;
+const bc=barkCanvas.getContext('2d');bc.fillStyle='#74543d';bc.fillRect(0,0,128,512);
+for(let i=0;i<165;i++){let yy=i*3.2,offset=Math.sin(i*2.1)*9;bc.strokeStyle=i%3===0?'rgba(35,24,17,.44)':'rgba(194,145,91,.32)';bc.lineWidth=1.5+(i%4);bc.beginPath();bc.moveTo(-8,yy+offset);bc.lineTo(136,yy-12+offset);bc.stroke()}
+const barkTexture=new THREE.CanvasTexture(barkCanvas);barkTexture.colorSpace=THREE.SRGBColorSpace;
+const palmBark=new THREE.MeshStandardMaterial({map:barkTexture,roughness:1,color:0xb99b7b});
+const frondMat=new THREE.MeshStandardMaterial({color:0x337d4c,side:THREE.DoubleSide,roughness:.92,vertexColors:true});
+function createPalmFrond(){let verts=[],cols=[],indices=[];const segments=12,leaflets=7;
+const base=new THREE.Color(0x65a75b),tip=new THREE.Color(0x204f38);
+for(let j=0;j<=segments;j++){let t=j/segments;let length=12.8,width=Math.sin(Math.PI*t)*2.35*(1-.28*t);
+let x=length*t,y=1.2*Math.sin(Math.PI*t)-4.7*t*t;
+for(let side of [-1,1]){verts.push(x,y,side*width);let color=base.clone().lerp(tip,.22+.6*t);cols.push(color.r,color.g,color.b)}
+if(j<segments){let k=j*2;indices.push(k,k+1,k+2,k+1,k+3,k+2)}}
+const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));g.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));g.setIndex(indices);g.computeVertexNormals();return g}
+const trunkGeo=new THREE.CylinderGeometry(.62,1.28,16,9,12);
+const frondGeo=createPalmFrond(),palmCount=460,frondsPerPalm=9;
+const trunks=new THREE.InstancedMesh(trunkGeo,palmBark,palmCount);
+const palmFronds=new THREE.InstancedMesh(frondGeo,frondMat,palmCount*frondsPerPalm);
+const dummy=new THREE.Object3D();let count=0;
+for(let i=0;i<3500&&count<palmCount;i++){
+ let x=(hash(i,12)-.5)*SIZE*.91,z=(hash(i,43)-.5)*SIZE*.91,h=height(x,z);
+ if(h<8||h>115||Math.hypot(x+330,z-310)<170||hash(i,88)<.36)continue;
+ let scale=.65+hash(i,71)*1.15,top=h+16*scale,twist=hash(i,11)*Math.PI*2;
+ dummy.position.set(x,h+8*scale,z);dummy.scale.set(scale,scale,scale);dummy.rotation.set(0,twist,0);dummy.updateMatrix();trunks.setMatrixAt(count,dummy.matrix);
+ for(let f=0;f<frondsPerPalm;f++){
+  let angle=twist+f*Math.PI*2/frondsPerPalm;
+  dummy.position.set(x,top,z);dummy.scale.set(scale,scale,scale);
+  dummy.rotation.set(0,-angle,.05*Math.sin(f*3+i));dummy.updateMatrix();palmFronds.setMatrixAt(count*frondsPerPalm+f,dummy.matrix);
+ }
+ count++;
+}
+trunks.count=count;palmFronds.count=count*frondsPerPalm;
+trunks.instanceMatrix.needsUpdate=true;palmFronds.instanceMatrix.needsUpdate=true;
+scene.add(trunks,palmFronds);
+
+// Avatar creation: mesh-based preview and a world character. No external models required.
+const skinColors=[0xf2d7c6,0xe5b89b,0xc58e68,0xab7955,0x845137,0x533525];
+const hairColors=[0x151316,0x34231c,0x70412c,0xd9b36c,0xb6bdc8,0x196ca9];
+const outfits=[{shirt:0x171d29,pants:0x11151d,accent:0x32dfff},{shirt:0x642b89,pants:0x1c1b32,accent:0xff36bb},{shirt:0x4e765b,pants:0x78644b,accent:0xe1c26b},{shirt:0x10141c,pants:0x25243e,accent:0x00e9ee}];
+let avatarSettings={skin:2,hair:'short',hairColor:1,outfit:0,build:50,heightChoice:50};
+try{let saved=JSON.parse(localStorage.getItem('vr2069-avatar')||'null');if(saved)avatarSettings={...avatarSettings,...saved}}catch(e){}
+const creator=document.getElementById('creator');let creatorOpen=true,thirdPerson=true;
+const avatarGroup=new THREE.Group();scene.add(avatarGroup);let previewAvatar=null;
+const previewScene=new THREE.Scene();previewScene.background=new THREE.Color(0x101b2a);
+const previewCamera=new THREE.PerspectiveCamera(36,1,0.1,50);previewCamera.position.set(0,1.5,5.3);previewCamera.lookAt(0,1.45,0);
+const previewRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});previewRenderer.setPixelRatio(Math.min(devicePixelRatio,1.5));previewRenderer.setSize(240,330);previewRenderer.outputColorSpace=THREE.SRGBColorSpace;previewRenderer.toneMapping=THREE.ACESFilmicToneMapping;previewRenderer.toneMappingExposure=1.25;document.getElementById('avatarPreview').appendChild(previewRenderer.domElement);
+previewScene.add(new THREE.HemisphereLight(0xc7e3ff,0x3a2930,2));let keyLight=new THREE.DirectionalLight(0xffffff,2.8);keyLight.position.set(3,5,5);previewScene.add(keyLight);let rim=new THREE.DirectionalLight(0x30d9ff,1.6);rim.position.set(-4,3,-3);previewScene.add(rim);
+const sphere=(r,material,w=14,h=10)=>new THREE.Mesh(new THREE.SphereGeometry(r,w,h),material);
+function makeAvatar(){let g=new THREE.Group(),a=avatarSettings,skinMat=mat(skinColors[a.skin]),hairMat=mat(hairColors[a.hairColor]),clothes=outfits[a.outfit],shirt=mat(clothes.shirt),pants=mat(clothes.pants),shoes=mat(0x17181d),accent=new THREE.MeshBasicMaterial({color:clothes.accent}),white=mat(0xf3ece4),iris=mat(0x423e35),dark=mat(0x191717);let broad=.86+a.build/360,tall=.9+a.heightChoice/500;g.scale.set(broad,tall,broad);g.userData.limbs=[];
+function part(mesh,x,y,z,parent=g){mesh.position.set(x,y,z);parent.add(mesh);return mesh}
+function limb(top,bottom,r1,r2,material){let delta=new THREE.Vector3().subVectors(new THREE.Vector3(...bottom),new THREE.Vector3(...top)),m=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,delta.length(),10),material);m.position.copy(new THREE.Vector3(...top).add(new THREE.Vector3(...bottom)).multiplyScalar(.5));m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());g.add(m);g.userData.limbs.push(m);return m}
+part(sphere(.33,shirt),0,1.55,0).scale.set(1.2,1.45,.66);part(sphere(.17,skinMat),0,1.94,0);
+let head=part(sphere(.24,skinMat,22,16),0,2.16,.015);head.scale.set(.88,1.12,.89);
+part(sphere(.095,skinMat),0,2.12,.228).scale.set(.55,.8,.85);
+for(let side of [-1,1]){part(sphere(.065,skinMat),side*.218,2.15,0);part(sphere(.055,white),side*.093,2.20,.212).scale.set(1,.7,.38);part(sphere(.027,iris),side*.093,2.20,.237);part(sphere(.013,dark),side*.093,2.20,.253);part(sphere(.016,skinMat),side*.09,2.10,.23);limb([side*.33,1.76,0],[side*.43,1.24,.04],.115,.095,shirt);limb([side*.43,1.24,.04],[side*.42,.94,.13],.088,.075,skinMat);part(sphere(.095,skinMat),side*.42,.90,.14);limb([side*.15,1.31,0],[side*.16,.62,.025],.16,.125,pants);limb([side*.16,.62,.025],[side*.16,.18,.09],.125,.09,pants);part(sphere(.17,shoes),side*.16,.12,.19).scale.set(.75,.52,1.45)}
+part(sphere(.058,mat(0x985e5b)),0,2.02,.225).scale.set(1.1,.23,.25);
+if(a.hair!=='bald'){let cap=part(sphere(.24,hairMat),0,2.34,-.01);cap.scale.set(.92,.55,.93);if(a.hair==='swept'){for(let i=0;i<5;i++){let tuft=part(sphere(.105,hairMat),-.16+i*.085,2.40,-.03);tuft.scale.set(.8,1.1,.8)}}else if(a.hair==='curly'){for(let i=0;i<13;i++){let theta=i*2.4;part(sphere(.087,hairMat),Math.cos(theta)*.17,2.36+Math.sin(i*1.7)*.07,Math.sin(theta)*.15)}}else if(a.hair==='long'){for(let side of [-1,1]){let lock=part(sphere(.14,hairMat),side*.19,2.08,-.065);lock.scale.set(.65,2.2,.75)}}}
+part(new THREE.Mesh(new THREE.TorusGeometry(.205,.014,6,30,Math.PI),accent),0,1.59,.218).rotation.z=Math.PI;
+return g}
+function rebuildAvatar(){avatarGroup.clear();avatarGroup.add(makeAvatar());if(previewAvatar)previewScene.remove(previewAvatar);previewAvatar=makeAvatar();previewScene.add(previewAvatar);try{localStorage.setItem('vr2069-avatar',JSON.stringify(avatarSettings))}catch(e){}}
+for(let key of ['skin','hair','hairColor','outfit','build','heightChoice']){let el=document.getElementById(key);el.value=avatarSettings[key];el.addEventListener('input',()=>{avatarSettings[key]=['skin','hairColor','outfit','build','heightChoice'].includes(key)?Number(el.value):el.value;rebuildAvatar()})}
+document.getElementById('randomAvatar').onclick=()=>{avatarSettings={skin:Math.floor(Math.random()*6),hair:['short','swept','curly','long','bald'][Math.floor(Math.random()*5)],hairColor:Math.floor(Math.random()*6),outfit:Math.floor(Math.random()*4),build:Math.floor(Math.random()*101),heightChoice:Math.floor(Math.random()*101)};for(let key of Object.keys(avatarSettings))document.getElementById(key).value=avatarSettings[key];rebuildAvatar()};
+document.getElementById('enterIsland').onclick=()=>{creatorOpen=false;creator.classList.add('hidden')};document.getElementById('avatarBtn').onclick=()=>{creatorOpen=true;creator.classList.remove('hidden')};document.getElementById('viewBtn').onclick=()=>{thirdPerson=!thirdPerson;document.getElementById('viewBtn').textContent=thirdPerson?'◈ 1ST PERSON':'◈ 3RD PERSON'};
+let previewDrag=null,previewAngle=0;previewRenderer.domElement.addEventListener('pointerdown',e=>{previewDrag=e.clientX;previewRenderer.domElement.setPointerCapture(e.pointerId)});previewRenderer.domElement.addEventListener('pointermove',e=>{if(previewDrag!==null){previewAngle+=(e.clientX-previewDrag)*.012;previewDrag=e.clientX}});previewRenderer.domElement.addEventListener('pointerup',()=>previewDrag=null);previewRenderer.domElement.addEventListener('pointercancel',()=>previewDrag=null);
+rebuildAvatar();
+
+const stageX=-330,stageZ=310,stageY=height(stageX,stageZ)+3;
+function box(w,h,d,m,x,y,z){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);scene.add(o);return o}
+box(95,5,65,mat(0x18212c),stageX,stageY,stageZ);box(95,3,6,mat(0x25252d),stageX,stageY+33,stageZ-29);for(let dx of [-44,44]){box(4,34,4,mat(0x232b32),stageX+dx,stageY+16,stageZ-28);box(12,19,11,mat(0x10141b),stageX+dx,stageY+12,stageZ+15)}box(24,8,9,mat(0x17191f),stageX,stageY+9,stageZ-8);
+const stageGlow=new THREE.PointLight(0x00ddff,55,250);stageGlow.position.set(stageX,stageY+22,stageZ);scene.add(stageGlow);const pinkGlow=new THREE.PointLight(0xff22aa,45,220);pinkGlow.position.set(stageX+35,stageY+20,stageZ+35);scene.add(pinkGlow);const lavaLight=new THREE.PointLight(0xff430b,65,480);lavaLight.position.set(VOLX,height(VOLX,VOLZ)+35,VOLZ);scene.add(lavaLight);const neon=new THREE.MeshBasicMaterial({color:0x00efff});const magenta=new THREE.MeshBasicMaterial({color:0xff36bb});for(let i=0;i<11;i++){box(3,2,2,i%2?neon:magenta,stageX-42+i*8,stageY+31,stageZ-25)}
+for(let i=0;i<22;i++){let x=stageX+(hash(i,2)-.5)*230,z=stageZ+45+hash(i,3)*180;let pole=box(1.2,16,1.2,mat(0x32383d),x,height(x,z)+8,z);const bulb=new THREE.Mesh(new THREE.SphereGeometry(2.5,7,6),i%2?magenta:neon);bulb.position.set(x,height(x,z)+17,z);scene.add(bulb)}
+// Festival v3: moving beams, animated LED wall, dancing NPC crowd and stage architecture.
+const festival=new THREE.Group();scene.add(festival);
+const ledPanels=[];
+for(let col=0;col<18;col++)for(let row=0;row<7;row++){
+ const panel=new THREE.Mesh(new THREE.PlaneGeometry(4.5,3.2),new THREE.MeshBasicMaterial({color:0x132a66,side:THREE.DoubleSide}));
+ panel.position.set(stageX-40+col*4.7,stageY+10+row*3.3,stageZ-25.3);
+ festival.add(panel);ledPanels.push({mesh:panel,col,row});
+}
+const beams=[];
+for(let i=0;i<8;i++){
+ const beam=new THREE.Mesh(new THREE.ConeGeometry(8,170,12,1,true),new THREE.MeshBasicMaterial({color:i%2?0xff38bd:0x3bdfff,transparent:true,opacity:.095,depthWrite:false,side:THREE.DoubleSide}));
+ beam.position.set(stageX-35+i*10,stageY+22,stageZ-18);
+ beam.rotation.z=Math.PI/2;festival.add(beam);beams.push(beam);
+}
+for(let i=0;i<8;i++){
+ const pole=new THREE.Mesh(new THREE.CylinderGeometry(.65,.65,23,7),mat(0x303c4b));
+ pole.position.set(stageX-39+i*11,stageY+18,stageZ-31);festival.add(pole);
+}
+// Articulated festival NPCs: shared low-poly geometry and materials to keep mobile draw cost reasonable.
+const crowd=[];
+const npcSkin=[0xf0c9aa,0xc58d6a,0x9b6545,0x583b2c].map(c=>mat(c));
+const npcCloth=[0x17c8d9,0xf247a5,0x8e6df1,0xe4ad41,0x3c9c72,0xd8dce7].map(c=>mat(c));
+const npcHeadGeo=new THREE.SphereGeometry(.7,8,6),npcBodyGeo=new THREE.CylinderGeometry(.75,.65,2.2,7),npcLimbGeo=new THREE.CylinderGeometry(.23,.26,1.65,6);
+function makeFestivalGuest(i,px,py,pz){
+ const root=new THREE.Group();root.position.set(px,py,pz);
+ const skin=npcSkin[Math.floor(hash(i,91)*npcSkin.length)],cloth=npcCloth[Math.floor(hash(i,92)*npcCloth.length)];
+ const torso=new THREE.Mesh(npcBodyGeo,cloth);torso.position.y=3.25;root.add(torso);
+ const head=new THREE.Mesh(npcHeadGeo,skin);head.position.y=5.05;root.add(head);
+ const hair=new THREE.Mesh(new THREE.SphereGeometry(.72,8,5,0,Math.PI*2,0,Math.PI*.52),mat([0x17131c,0x553322,0xb58b52][Math.floor(hash(i,93)*3)]));hair.position.y=5.24;root.add(hair);
+ const limbs=[];
+ for(let j=0;j<4;j++){
+  const pivot=new THREE.Group();pivot.position.set(j<2?(j===0?-0.86:.86):(j===2?-.37:.37),j<2?4.03:2.2,0);
+  const mesh=new THREE.Mesh(npcLimbGeo,j<2?skin:npcCloth[(i+2)%npcCloth.length]);mesh.position.y=-.83;pivot.add(mesh);root.add(pivot);limbs.push(pivot);
+ }
+ root.rotation.y=Math.atan2(stageX-px,stageZ-pz);
+ const scale=.83+hash(i,94)*.35;root.scale.setScalar(scale);festival.add(root);
+ return {mesh:root,torso,limbs,phase:hash(i,81)*6.28,baseY:py};
+}
+for(let i=0;i<72;i++){
+ const a=hash(i,75)*Math.PI*2,dist=44+hash(i,76)*110;
+ const px=stageX+Math.cos(a)*dist,pz=stageZ+38+Math.abs(Math.sin(a))*dist;
+ const py=height(px,pz)+.25;
+ crowd.push(makeFestivalGuest(i,px,py,pz));
+}
+const djSign=document.createElement('canvas');djSign.width=1024;djSign.height=256;
+const djctx=djSign.getContext('2d');djctx.fillStyle='#030713';djctx.fillRect(0,0,1024,256);
+djctx.font='bold 116px Arial';djctx.textAlign='center';djctx.fillStyle='#62eaff';djctx.shadowColor='#00f6ff';djctx.shadowBlur=26;djctx.fillText('CiViLX',512,154);
+const djTex=new THREE.CanvasTexture(djSign);djTex.colorSpace=THREE.SRGBColorSpace;
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(48,12),new THREE.MeshBasicMaterial({map:djTex,side:THREE.DoubleSide}));
+sign.position.set(stageX,stageY+37,stageZ-23);festival.add(sign);
+function updateFestival(now){let t=now*.001;
+ beams.forEach((b,i)=>{b.rotation.z=Math.PI/2+Math.sin(t*.85+i*.72)*.5;b.rotation.x=Math.sin(t*.67+i)*.34});
+ ledPanels.forEach(({mesh,col,row})=>{mesh.material.color.setHSL((t*.06+col*.035+row*.018)%1,.9,.17+.24*(.5+.5*Math.sin(t*4+col*.6-row*.9)))});
+ crowd.forEach(({mesh,torso,limbs,phase,baseY},i)=>{
+  const distanceSq=(mesh.position.x-x)**2+(mesh.position.z-z)**2;
+  mesh.visible=distanceSq<280*280;
+  if(!mesh.visible)return;
+  const beat=t*3.3+phase;
+  mesh.position.y=baseY+Math.abs(Math.sin(beat))*.22;
+  torso.rotation.z=Math.sin(beat*.5)*.12;
+  limbs[0].rotation.x=Math.sin(beat)*.6;limbs[1].rotation.x=-Math.sin(beat)*.6;
+  limbs[0].rotation.z=.35+Math.sin(beat*.65)*.25;limbs[1].rotation.z=-.35-Math.sin(beat*.65)*.25;
+  limbs[2].rotation.x=Math.sin(beat)*.27;limbs[3].rotation.x=-Math.sin(beat)*.27;
+ });
+}
+const craterGlow=new THREE.Mesh(new THREE.CircleGeometry(76,32),lava);craterGlow.rotation.x=-Math.PI/2;craterGlow.position.set(VOLX,height(VOLX,VOLZ)+3,VOLZ);scene.add(craterGlow);
+for(let i=0;i<12;i++){let a=i*Math.PI*2/12,x=VOLX+Math.cos(a)*115,z=VOLZ+Math.sin(a)*115;let mesh=new THREE.Mesh(new THREE.ConeGeometry(26,45,5),rock);mesh.position.set(x,height(x,z)+17,z);scene.add(mesh)}
+// Cinematic night sky: seamless equirectangular painted atmosphere, layered galactic dust,
+// subtle natural star field, and crater-textured lunar surface. Generated locally; no sky download.
+const sky=new THREE.Group();scene.add(sky);
+const skyCanvas=document.createElement('canvas');skyCanvas.width=2048;skyCanvas.height=1024;
+const sk=skyCanvas.getContext('2d');
+const grad=sk.createLinearGradient(0,0,0,1024);
+grad.addColorStop(0,'#01030b');grad.addColorStop(.28,'#030815');grad.addColorStop(.58,'#081629');grad.addColorStop(.77,'#12243a');grad.addColorStop(.90,'#1b3043');grad.addColorStop(1,'#233645');sk.fillStyle=grad;sk.fillRect(0,0,2048,1024);
+// Fixed-seed randomness makes the panorama stable and identical across reloads.
+let skySeed=291847;function skyRand(){skySeed=(Math.imul(1664525,skySeed)+1013904223)>>>0;return skySeed/4294967296}
+// Galaxy is a winding band of faint dust with dark lanes, not a solid neon stripe.
+// Equirectangular coordinates keep the dust mostly above the horizon.
+for(let layer=0;layer<3;layer++){
+ const count=[7500,9000,6500][layer];
+ for(let i=0;i<count;i++){
+  const u=skyRand(),v=(skyRand()+skyRand()+skyRand()-1.5);
+  const xx=u*2048,center=360+145*Math.sin(u*6.283+1.05)+48*Math.sin(u*12.566+.2);
+  const yy=center+v*[155,105,62][layer];if(yy<18||yy>800)continue;
+  const r=[15,7,2.7][layer]*(0.4+skyRand()*1.5);
+  const alpha=[.012,.021,.055][layer]*(0.3+skyRand());
+  const palette=layer===0?'175,189,205':layer===1?'144,159,190':'206,210,215';
+  sk.fillStyle=`rgba(${palette},${alpha})`;sk.beginPath();sk.ellipse(xx,yy,r*2.2,r,0,0,Math.PI*2);sk.fill();
+ }
+}
+// Uneven dark molecular clouds give the Milky Way its natural broken structure.
+for(let i=0;i<1800;i++){
+ const u=skyRand(),center=360+145*Math.sin(u*6.283+1.05)+48*Math.sin(u*12.566+.2);
+ const yy=center+(skyRand()+skyRand()-1)*95;if(yy<20||yy>780)continue;
+ sk.fillStyle=`rgba(1,4,11,${.015+skyRand()*.035})`;sk.beginPath();sk.ellipse(u*2048,yy,5+skyRand()*24,2+skyRand()*10,skyRand()*2,0,Math.PI*2);sk.fill();
+}
+// Natural stellar magnitudes: the majority are pinpoints, a few are bright.
+for(let i=0;i<12500;i++){
+ const xx=skyRand()*2048,yy=skyRand()*850,mag=skyRand(),radius=mag>.996?2.1:mag>.97?1.1:.42;
+ const tint=skyRand(),rgb=tint<.12?'255,219,189':tint<.31?'190,213,255':'239,243,255';
+ sk.fillStyle=`rgba(${rgb},${mag>.97?.85:.28+skyRand()*.5})`;sk.beginPath();sk.arc(xx,yy,radius,0,Math.PI*2);sk.fill();
+ if(mag>.997){const glow=sk.createRadialGradient(xx,yy,0,xx,yy,11);glow.addColorStop(0,'rgba(188,212,255,.22)');glow.addColorStop(1,'rgba(188,212,255,0)');sk.fillStyle=glow;sk.fillRect(xx-11,yy-11,22,22)}
+}
+const skyTexture=new THREE.CanvasTexture(skyCanvas);skyTexture.colorSpace=THREE.SRGBColorSpace;skyTexture.wrapS=THREE.RepeatWrapping;skyTexture.anisotropy=2;
+const skyDome=new THREE.Mesh(new THREE.SphereGeometry(2600,64,32),new THREE.MeshBasicMaterial({map:skyTexture,side:THREE.BackSide,depthWrite:false,fog:false,toneMapped:false}));skyDome.rotation.y=.6;sky.add(skyDome);
+// The moon uses a separately generated lunar albedo map with mare and craters.
+const moonCanvas=document.createElement('canvas');moonCanvas.width=512;moonCanvas.height=256;
+const mc=moonCanvas.getContext('2d');mc.fillStyle='#b9b7ad';mc.fillRect(0,0,512,256);
+for(let i=0;i<3500;i++){let xx=skyRand()*512,yy=skyRand()*256,r=1+skyRand()*20;mc.fillStyle=`rgba(${skyRand()>.55?'60,65,68':'240,236,218'},${.015+skyRand()*.06})`;mc.beginPath();mc.arc(xx,yy,r,0,Math.PI*2);mc.fill()}
+for(let i=0;i<160;i++){let xx=skyRand()*512,yy=skyRand()*256,r=1+Math.pow(skyRand(),3)*12;mc.strokeStyle=`rgba(225,222,209,${.10+skyRand()*.17})`;mc.lineWidth=.6+skyRand()*1.5;mc.beginPath();mc.arc(xx,yy,r,0,Math.PI*2);mc.stroke();mc.fillStyle='rgba(56,61,64,.06)';mc.beginPath();mc.arc(xx+1,yy+1,r*.85,0,Math.PI*2);mc.fill()}
+const lunarTexture=new THREE.CanvasTexture(moonCanvas);lunarTexture.colorSpace=THREE.SRGBColorSpace;
+const moon=new THREE.Mesh(new THREE.SphereGeometry(31,48,32),new THREE.MeshStandardMaterial({map:lunarTexture,roughness:1,metalness:0,fog:false}));moon.position.set(-1250,1150,-1400);moon.rotation.y=.4;sky.add(moon);
+const moonHaloCanvas=document.createElement('canvas');moonHaloCanvas.width=128;moonHaloCanvas.height=128;const hc=moonHaloCanvas.getContext('2d'),hg=hc.createRadialGradient(64,64,0,64,64,64);hg.addColorStop(0,'rgba(196,213,234,.32)');hg.addColorStop(.23,'rgba(153,181,215,.12)');hg.addColorStop(1,'rgba(120,156,207,0)');hc.fillStyle=hg;hc.fillRect(0,0,128,128);
+const moonGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(moonHaloCanvas),transparent:true,opacity:.8,depthWrite:false,depthTest:false,fog:false}));moonGlow.position.copy(moon.position);moonGlow.scale.set(300,300,1);sky.add(moonGlow);
+// Dynamic weather: clear, rain, storm, and drifting mist. Rain follows the camera.
+const weatherModes=['CLEAR','RAIN','STORM','MIST'];let weatherMode=0,weatherTime=0;
+const rainCount=950,rainPositions=new Float32Array(rainCount*6);const rainGeo=new THREE.BufferGeometry();rainGeo.setAttribute('position',new THREE.BufferAttribute(rainPositions,3));const rain=new THREE.LineSegments(rainGeo,new THREE.LineBasicMaterial({color:0x9cb7e6,transparent:true,opacity:.43,depthWrite:false}));rain.frustumCulled=false;rain.visible=false;scene.add(rain);
+const lightning=new THREE.PointLight(0xbcd4ff,0,850);scene.add(lightning);
+const mist=new THREE.Group();for(let i=0;i<34;i++){let puff=new THREE.Sprite(new THREE.SpriteMaterial({color:0x8c9fb9,transparent:true,opacity:.045,depthWrite:false}));puff.scale.set(100+hash(i,17)*160,28+hash(i,18)*45,1);mist.add(puff)}scene.add(mist);mist.visible=false;
+document.getElementById('weather').onclick=()=>{weatherMode=(weatherMode+1)%weatherModes.length;document.getElementById('weather').textContent='☁ WEATHER: '+weatherModes[weatherMode];rain.visible=weatherMode===1||weatherMode===2;mist.visible=weatherMode===3;scene.fog.density=weatherMode===3?.0011:weatherMode===2?.00035:.00016;document.getElementById('weatherLabel').textContent=weatherMode===0?'Cinematic night sky • moonlit island':weatherMode===1?'Tropical rainfall':weatherMode===2?'Volcanic thunderstorm':'Coastal night mist'};
+function updateWeather(dt,now){sky.position.set(x,0,z);weatherTime+=dt;if(rain.visible){for(let i=0;i<rainCount;i++){let rx=(hash(i,4)-.5)*95,rz=(hash(i,14)-.5)*95,fall=(hash(i,44)*30+weatherTime*29)%34,ry=y+17-fall;let k=i*6;rainPositions[k]=x+rx;rainPositions[k+1]=ry;rainPositions[k+2]=z+rz;rainPositions[k+3]=x+rx-1.2;rainPositions[k+4]=ry-1.9;rainPositions[k+5]=z+rz-.4}rainGeo.attributes.position.needsUpdate=true}if(mist.visible){mist.position.set(x,0,z);mist.children.forEach((p,i)=>{let a=i*2.399+weatherTime*.015,r=60+hash(i,8)*190;p.position.set(Math.cos(a)*r,8+hash(i,9)*25,Math.sin(a)*r)})}lightning.intensity=weatherMode===2&&Math.sin(now*.00071)> .997?35:0;lightning.position.set(x+130,y+150,z-60)}
+let x=-420,z=540,y=0,yaw=0,pitch=0,vy=0,onGround=true,joyX=0,joyY=0,run=false,jump=false,dancing=false;const danceButton=document.getElementById('dance'),danceMoves=document.getElementById('danceMoves');danceMoves.addEventListener('change',()=>{if(dancing)document.getElementById('status').textContent='Now dancing: '+danceMoves.selectedOptions[0].text});danceButton.addEventListener('click',()=>{dancing=!dancing;danceButton.classList.toggle('active',dancing);danceButton.setAttribute('aria-pressed',String(dancing));danceButton.textContent=dancing?'■ STOP DANCE':'♫ DANCE'});const keys={};const stick=document.getElementById('stick'),knob=document.getElementById('knob');let joyId=null,lookId=null,lastLook=null;
+function joyMove(e){const r=stick.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),len=Math.max(1,Math.hypot(dx,dy)),scale=Math.min(1,len/43);joyX=dx/len*scale;joyY=dy/len*scale;knob.style.transform=`translate(${joyX*37}px,${joyY*37}px)`}
+stick.addEventListener('pointerdown',e=>{joyId=e.pointerId;stick.setPointerCapture(e.pointerId);joyMove(e)});stick.addEventListener('pointermove',e=>{if(e.pointerId===joyId)joyMove(e)});function resetJoy(e){if(e.pointerId===joyId){joyId=null;joyX=joyY=0;knob.style.transform=''}}stick.addEventListener('pointerup',resetJoy);stick.addEventListener('pointercancel',resetJoy);
+renderer.domElement.addEventListener('pointerdown',e=>{if(lookId===null){lookId=e.pointerId;lastLook=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)}});renderer.domElement.addEventListener('pointermove',e=>{if(e.pointerId!==lookId||!lastLook)return;yaw-=(e.clientX-lastLook[0])*.004;pitch=Math.max(-1.22,Math.min(1.22,pitch-(e.clientY-lastLook[1])*.0035));lastLook=[e.clientX,e.clientY]});renderer.domElement.addEventListener('pointerup',e=>{if(e.pointerId===lookId)lookId=null});renderer.domElement.addEventListener('pointercancel',()=>lookId=null);
+document.getElementById('sprint').addEventListener('pointerdown',()=>run=true);for(let ev of ['pointerup','pointercancel','pointerleave'])document.getElementById('sprint').addEventListener(ev,()=>run=false);document.getElementById('jump').addEventListener('pointerdown',()=>jump=true);window.addEventListener('keydown',e=>{keys[e.code]=true;if(e.code==='Space')jump=true});window.addEventListener('keyup',e=>keys[e.code]=false);
+let playerAudio=new Audio('music/Astronomy.mp3');
+playerAudio.preload='metadata';playerAudio.loop=true;let currentTrack='Astronomy';let userTrackUrl=null;
+const musicButton=document.getElementById('music');
+function updateMusicButton(){musicButton.textContent=(playerAudio.paused?'♫ PLAY ':'Ⅱ PAUSE ')+currentTrack.slice(0,16);musicButton.setAttribute('aria-pressed',String(!playerAudio.paused));}
+musicButton.onclick=async()=>{if(!playerAudio.paused){playerAudio.pause();updateMusicButton();return;}try{await playerAudio.play();updateMusicButton()}catch(err){document.getElementById('status').textContent='Music could not start. Check your connection and tap PLAY again.';updateMusicButton();}};
+document.getElementById('changeMusic').onclick=()=>document.getElementById('audio').click();
+document.getElementById('audio').onchange=async e=>{let f=e.target.files[0];if(!f)return;playerAudio.pause();if(userTrackUrl)URL.revokeObjectURL(userTrackUrl);userTrackUrl=URL.createObjectURL(f);playerAudio.src=userTrackUrl;currentTrack=f.name.replace(/\.[^.]+$/,'');playerAudio.load();try{await playerAudio.play()}catch(err){document.getElementById('status').textContent='Tap PLAY to start your selected track.';}updateMusicButton();};
+playerAudio.addEventListener('play',updateMusicButton);playerAudio.addEventListener('pause',updateMusicButton);playerAudio.addEventListener('error',()=>{document.getElementById('status').textContent='Astronomy audio could not load. Confirm the music folder was uploaded.';});
+const minimap=document.getElementById('minimap'),ctx=minimap.getContext('2d');const mapImage=ctx.createImageData(236,236);for(let j=0;j<236;j++)for(let i=0;i<236;i++){let wx=(i/235-.5)*SIZE,wz=(j/235-.5)*SIZE,h=height(wx,wz),o=(j*236+i)*4;let col=h<0?[25,114,151]:h<9?[215,190,136]:h<220?[62,121,67]:[104,88,80];for(let k=0;k<3;k++)mapImage.data[o+k]=col[k];mapImage.data[o+3]=255}
+function mapDraw(){ctx.putImageData(mapImage,0,0);function dot(wx,wz,color,r){ctx.fillStyle=color;ctx.beginPath();ctx.arc((wx/SIZE+.5)*236,(wz/SIZE+.5)*236,r,0,7);ctx.fill()}dot(VOLX,VOLZ,'#ff5419',6);dot(stageX,stageZ,'#00f6ff',6);dot(x,z,'white',4);ctx.strokeStyle='white';ctx.lineWidth=2;let mx=(x/SIZE+.5)*236,mz=(z/SIZE+.5)*236;ctx.beginPath();ctx.moveTo(mx,mz);ctx.lineTo(mx-Math.sin(yaw)*15,mz-Math.cos(yaw)*15);ctx.stroke()}
+// Island Adventure: three distinct places to discover, saved locally.
+const landmarkList=[{id:'stage',name:'Rave Beach',x:stageX,z:stageZ,range:135},{id:'volcano',name:'Volcano Overlook',x:VOLX+210,z:VOLZ+235,range:100},{id:'coast',name:'Moonlit Coast',x:-1000,z:520,range:140}];
+let discoveries={};try{discoveries=JSON.parse(localStorage.getItem('vr2069-discoveries-v2')||'{}')||{}}catch(e){}
+let lowGraphics=false,questNotice='';
+function refreshQuest(){const n=landmarkList.filter(a=>discoveries[a.id]).length;document.getElementById('progress').textContent=`${n} / 3 discoveries`+(discoveries.dance?' • dance complete':'');let next=landmarkList.find(a=>!discoveries[a.id]);document.getElementById('objective').textContent=next?`Discover ${next.name}. Explore on foot or use VISIT.`:discoveries.dance?'Island explorer! You discovered all locations and danced at the rave.':'All landmarks found! Return to Rave Beach and press DANCE.';}
+function saveQuest(){try{localStorage.setItem('vr2069-discoveries-v2',JSON.stringify(discoveries))}catch(e){}refreshQuest()}
+function checkQuest(){let changed=false;for(const a of landmarkList){if(!discoveries[a.id]&&Math.hypot(x-a.x,z-a.z)<a.range){discoveries[a.id]=true;changed=true;questNotice=`Discovered: ${a.name}!`;}}if(!discoveries.dance&&dancing&&Math.hypot(x-stageX,z-stageZ)<135){discoveries.dance=true;changed=true;questNotice='Dance challenge completed!';}if(changed){saveQuest();document.getElementById('status').textContent=questNotice;}}
+document.getElementById('goTravel').addEventListener('click',()=>{const a=landmarkList.find(v=>v.id===document.getElementById('travel').value);if(!a)return;if(caveActive)exitCave();x=a.x;z=a.z;y=height(x,z)+2.3;vy=0;onGround=true;dancing=false;danceButton.classList.remove('active');danceButton.setAttribute('aria-pressed','false');danceButton.textContent='♫ DANCE';checkQuest();});
+document.getElementById('experienceToggle').addEventListener('click',()=>{const c=document.getElementById('experience').classList.toggle('collapsed');document.getElementById('experienceToggle').textContent=c?'+':'−'});
+try{lowGraphics=localStorage.getItem('vr2069-eco')==='1'}catch(e){}function applyGraphics(){renderer.setPixelRatio(Math.min(devicePixelRatio,lowGraphics?.75:1.5));renderer.setSize(innerWidth,innerHeight);pebbles.count=lowGraphics?180:pebbleCount;glimmers.visible=!lowGraphics;trunks.count=lowGraphics?Math.min(160,count):count;crowns.count=lowGraphics?Math.min(160,count):count;rain.visible=weatherMode>0&&weatherMode<3&&!lowGraphics;document.getElementById('graphics').textContent=lowGraphics?'QUALITY GRAPHICS':'ECO GRAPHICS';}applyGraphics();document.getElementById('graphics').addEventListener('click',()=>{lowGraphics=!lowGraphics;try{localStorage.setItem('vr2069-eco',lowGraphics?'1':'0')}catch(e){};renderer.setPixelRatio(Math.min(devicePixelRatio,lowGraphics?.75:1.5));renderer.setSize(innerWidth,innerHeight);pebbles.count=lowGraphics?180:pebbleCount;glimmers.visible=!lowGraphics;trunks.count=lowGraphics?Math.min(160,count):count;crowns.count=lowGraphics?Math.min(160,count):count;rain.visible=weatherMode>0&&weatherMode<3&&!lowGraphics;document.getElementById('graphics').textContent=lowGraphics?'QUALITY GRAPHICS':'ECO GRAPHICS';});
+document.getElementById('resetQuest').addEventListener('click',()=>{discoveries={};saveQuest()});refreshQuest();
+takePhotoBtn.addEventListener('click',()=>{try{renderer.render(scene,camera);const a=document.createElement('a');a.href=renderer.domElement.toDataURL('image/png');a.download='VirtualRaver2069-'+new Date().toISOString().replace(/[:.]/g,'-')+'.png';document.body.appendChild(a);a.click();a.remove();}catch(err){alert('Screenshot unavailable in this browser. Try Chrome and allow downloads.');}});
+let fpsStart=performance.now(),fpsFrames=0;let last=performance.now(),frame=0;let appHidden=document.hidden;document.addEventListener("visibilitychange",()=>{appHidden=document.hidden;last=performance.now();if(appHidden){joyX=0;joyY=0;run=false;for(const k of Object.keys(keys))keys[k]=false;}});function tick(now){requestAnimationFrame(tick);if(appHidden){last=now;return;}let dt=Math.min(.05,(now-last)/1000);last=now;if(++fpsFrames>=30){const fps=Math.round(1000*fpsFrames/Math.max(1,now-fpsStart));document.getElementById('devStatus').textContent='FPS: '+fps+' • '+(lowGraphics?'ECO':'HIGH');fpsFrames=0;fpsStart=now;}let f= -joyY+(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0),side=joyX+(keys.KeyD?1:0)-(keys.KeyA?1:0);let len=Math.max(1,Math.hypot(f,side));f/=len;side/=len;let speed=(caveActive?(run||keys.ShiftLeft?3.1:1.4):(run||keys.ShiftLeft?18:9))*dt;let nx=x+(-Math.sin(yaw)*f+Math.cos(yaw)*side)*speed,nz=z+(-Math.cos(yaw)*f-Math.sin(yaw)*side)*speed;if(caveActive){nz=Math.max(2,Math.min(CAVE_LENGTH-3,nz));nx=Math.max(caveCenter(nz)-5.3,Math.min(caveCenter(nz)+5.3,nx));if(nz>775){heartBtn.style.display='block';if(!heartUnlocked){heartUnlocked=true;document.getElementById('status').textContent='💎 Heart of the Volcano discovered! Tap HEART RAVE.'}}else{heartBtn.style.display='none'}}else{nx=Math.max(-1540,Math.min(1540,nx));nz=Math.max(-1540,Math.min(1540,nz));}let h=height(nx,nz);if(caveActive||h>1){x=nx;z=nz}else{let current=height(x,z);if(current>2){x=nx;z=nz}}let ground=caveActive?10.3:height(x,z)+2.3;if(jump&&onGround){vy=9;onGround=false}jump=false;vy-=23*dt;y+=vy*dt;if(y<=ground){y=ground;vy=0;onGround=true}avatarGroup.position.set(x,caveActive?8.1:height(x,z)+.1,z);avatarGroup.rotation.y=yaw+Math.PI;avatarGroup.visible=thirdPerson;let walkAmount=Math.hypot(f,side),body=avatarGroup.children[0],limbs=body.userData.limbs||[];const beat=now*.0065;if(dancing){
+  // Lightweight procedural dance approximations; not motion-captured animation.
+  const move=danceMoves.value,t=beat;
+  body.position.y=0;body.rotation.x=0;body.rotation.y=0;body.rotation.z=0;
+  limbs.forEach(p=>{p.rotation.x=0;p.rotation.y=0;p.rotation.z=0});
+  const arm=(i,xv,zv=0)=>{if(limbs[i]){limbs[i].rotation.x=xv;limbs[i].rotation.z=zv}};
+  if(move==='shuffle'){
+    body.position.y=.12+Math.abs(Math.sin(t*2))*.18;body.rotation.y=Math.sin(t*.5)*.16;
+    arm(0,Math.sin(t*2)*.6,.22);arm(1,-Math.sin(t*2)*.6,-.22);
+    arm(4,Math.sin(t*2)*.7,.18);arm(5,-Math.sin(t*2)*.7,-.18);
+  }else if(move==='floss'){
+    body.rotation.z=Math.sin(t*1.3)*.17;body.rotation.y=Math.sin(t*1.3)*.25;
+    arm(0,Math.sin(t*1.3)*1.1,-.5);arm(1,Math.sin(t*1.3)*1.1,.5);
+    arm(4,-Math.sin(t*1.3)*.35);arm(5,Math.sin(t*1.3)*.35);
+  }else if(move==='robot'){
+    const step=Math.floor(t*1.8)%4,pose=[-.7,0,.7,0][step];
+    body.rotation.y=pose*.4;body.rotation.z=pose*.16;
+    arm(0,pose,.8);arm(1,-pose,-.8);arm(4,pose*.4);arm(5,-pose*.4);
+  }else if(move==='moonwalk'){
+    body.rotation.x=-.12;body.position.y=.06+Math.abs(Math.sin(t))*.06;
+    arm(0,Math.sin(t)*.3);arm(1,-Math.sin(t)*.3);
+    arm(4,Math.sin(t)*.55);arm(5,-Math.sin(t)*.55);
+  }else if(move==='disco'){
+    body.rotation.y=Math.sin(t*.7)*.28;body.rotation.z=Math.sin(t)*.09;
+    arm(0,-1.2,-.8);arm(1,Math.sin(t)*.5,.25);
+    arm(4,Math.sin(t)*.28);arm(5,-Math.sin(t)*.28);
+  }else if(move==='wave'){
+    body.rotation.x=Math.sin(t)*.13;body.rotation.z=Math.sin(t-.7)*.2;
+    arm(0,Math.sin(t)*.6,Math.sin(t-.8)*.65);
+    arm(1,Math.sin(t-1)*.6,-Math.sin(t-1.8)*.65);
+    arm(4,Math.sin(t)*.18);arm(5,-Math.sin(t)*.18);
+  }else{
+    body.position.y=.16+Math.abs(Math.sin(t*2))*.24;
+    body.rotation.z=Math.sin(t)*.08;
+    arm(0,-.8+Math.sin(t)*.4,.55);arm(1,-.8-Math.sin(t)*.4,-.55);
+    arm(4,Math.sin(t)*.2);arm(5,-Math.sin(t)*.2);
+  }
+}else{body.position.y=0;body.rotation.x=0;body.rotation.y=0;body.rotation.z=Math.sin(now*.008)*.025*walkAmount;limbs.forEach((part,i)=>{part.rotation.z=0;part.rotation.x=walkAmount*Math.sin(now*.011+(i%2)*Math.PI)*(i>=4?.25:.16)})}
+if(thirdPerson){let back=7.5, orbitHeight=3.0+Math.sin(-pitch)*5.0;let desiredX=x+Math.sin(yaw)*back,desiredZ=z+Math.cos(yaw)*back;let desiredY=caveActive?y+orbitHeight:Math.max(height(desiredX,desiredZ)+1.3,y+orbitHeight);camera.position.lerp(new THREE.Vector3(desiredX,desiredY,desiredZ),Math.min(1,dt*9));camera.lookAt(x,y-.4,z);camera.rotation.order='YXZ'}else camera.position.set(x,y,z);oceanUniforms.uTime.value=now*.001;glimmers.material.opacity=.28+.14*Math.sin(now*.0012);updateWeather(dt,now);sky.visible=!caveActive;rain.visible=!caveActive&&weatherMode>0&&weatherMode<3;mist.visible=!caveActive&&weatherMode===3;if(!thirdPerson){camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;}updateFestival(now);updateHeart(now);updateMarineLife(now);updateOceanAdventure(dt,now);stageGlow.intensity=45+12*Math.sin(now*.004);pinkGlow.intensity=38+12*Math.sin(now*.003);lavaLight.intensity=55+9*Math.sin(now*.002);renderer.render(scene,camera);if(++frame%12===0){const heading=((Math.round((-yaw*180/Math.PI)%360)+360)%360);document.getElementById('compassBar').textContent=['N','NE','E','SE','S','SW','W','NW'][Math.round(heading/45)%8]+' · '+String(heading).padStart(3,'0')+'°';}if(creatorOpen){let w=document.getElementById('avatarPreview').clientWidth,h=document.getElementById('avatarPreview').clientHeight;if(previewRenderer.domElement.width!==Math.round(w*previewRenderer.getPixelRatio())||previewRenderer.domElement.height!==Math.round(h*previewRenderer.getPixelRatio())){previewRenderer.setSize(w,h);previewCamera.aspect=w/h;previewCamera.updateProjectionMatrix()}previewAvatar.rotation.y=previewAngle;previewRenderer.render(previewScene,previewCamera)}if(++frame%12===0){if(seaMode==='shore'&&!caveActive)checkQuest();if(!caveActive)mapDraw();document.getElementById('coords').textContent=caveActive?`Crystal Cave • ${Math.round(z)} / ${CAVE_LENGTH} m • ~${Math.max(0,Math.ceil((CAVE_LENGTH-z)/1.4/60))} min walking remaining`:`Island 3.2 km × 3.2 km • ${Math.round(x)}m E / ${Math.round(z)}m N`;let d=Math.hypot(x-stageX,z-stageZ);if(!questNotice&&seaMode==='shore'&&!caveActive)document.getElementById('status').textContent=d<120?'♫ CiViLX RAVE STAGE ♫':Math.hypot(x+1000,z-520)<200?'🐬 Look west over the ocean for dolphins and whales • Moonlit Coast':`Rave stage ${Math.round(d)} m away • Volcano ${Math.round(Math.hypot(x-VOLX,z-VOLZ))} m away`;else questNotice=''}}
+y=height(x,z)+2.3;requestAnimationFrame(tick);document.getElementById('loading').remove();addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+</script><script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){navigator.serviceWorker.register("./sw.js").catch(()=>{});}</script><div id="qualityToast" role="status" aria-live="polite"></div><script>
+(()=>{let timeout;const toast=document.getElementById('qualityToast');function announce(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(timeout);timeout=setTimeout(()=>toast.classList.remove('show'),2300)}
+const names={dance:'Dance mode',weather:'Weather changed',graphics:'Graphics mode updated',goTravel:'Traveling to destination',caveEnter:'Entering crystal cave',caveExit:'Returning to island',heartBtn:'Heart of the Volcano',boatTour:'Whale-watching tour',reefDive:'Coral reef dive',shoreReturn:'Returning to shore'};
+for(const [id,label] of Object.entries(names)){document.getElementById(id)?.addEventListener('click',()=>announce(label))}
+})();</script><script>
+(function(){
+ async function requestLandscape(){try{if(screen.orientation&&screen.orientation.lock){await screen.orientation.lock('landscape');}}catch(e){/* orientation lock requires installed/fullscreen app on some browsers */}}
+ document.getElementById('landscapeLock').addEventListener('click',async()=>{try{if(document.documentElement.requestFullscreen&&!document.fullscreenElement)await document.documentElement.requestFullscreen();}catch(e){}await requestLandscape();});
+ document.getElementById('enterIsland').addEventListener('click',requestLandscape);
+})();
+</script></body></html>

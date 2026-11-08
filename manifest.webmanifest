@@ -1,0 +1,25 @@
+{
+  "name": "Virtual Raver 2069 \u2014 Cinematic Sky",
+  "short_name": "Raver 2069",
+  "description": "Virtual Raver 2069 cinematic sky release, island, CiViLX festival, volcano cave and ocean adventures",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#020612",
+  "theme_color": "#071527",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
